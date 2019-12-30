@@ -44,7 +44,7 @@ My code is structured, have comments and compiles without any warning messages t
 pass all the provides tests (in the test folder) and also ls and ps command test for any allocation
 policy and any alignment value combination. I added few test files in the folders, also I tested it
 manually over few thousand times and it handles **99%** possible (de)allocations. (Maybe there is 1%
-cases, that I couldn't imagine, but yeah it works like a charm).
+cases, that I couldn't imagine, but yeah it works like a charm :cool: ).
 
 The implementation also includes sanity checks:
 1. *Forgetting to free memory* – in the end if user forget to free memory, my allocator reminds
@@ -64,7 +64,7 @@ check. Returned address to user is
 `start_used_block_addr+aligned_size(MIN_USED_BLOCK+0 (size of used block))` and
 because the size of that used block is 0, immediately in the same address as returned one to
 user, starts new free block. And how to check when user wants to free that address, is he
-trying to *free free memory* or is *that special case (free 0 sized memory address)?!* And because I’m Tsotne, it handles that case properly (reading this, imagine me making *dab move* :D ).
+trying to *free free memory* or is *that special case (free 0 sized memory address)?!* And because I’m Tsotne, it handles that case properly (reading this, imagine me making *dab move* :wink: ).
 
 3. *Corrupting the allocator metadata.* Before every malloc or free call, **check_corruption**
 function checks if everything ok – if not, something happened, either someone changed free
@@ -90,4 +90,4 @@ Also I count all possible free blocks which are enough for new request.
 
 I tried few scenarios, and depending managed memory size, allocation request sizes, freeing it and its order, I got different results for different policies. In general, *Worst-fit* algorithm is the best placement algorithm with respect to fragmentation because it results in less amount of fragmentation, which haven’t been in our work and *Best Fit* is worst one, if we consider its time too - for get result in *BF* we should scan full list.
 
-Before that lab, I already knew how to use gdb, but now, I’m the expert to explore segmentation faults :3
+Before that lab, I already knew how to use gdb, but now, I’m the expert to explore segmentation faults. :sunglasses:
