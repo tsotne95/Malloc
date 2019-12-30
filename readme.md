@@ -58,46 +58,36 @@ meaning).
 memory, also I know if the address is not aligned with the alignment value, that address is
 not provided by my allocator. Also maybe user give as used block address, but that address
 is not the start of used block. And sanity checks in free function, prevents free already free
-memory (which never been used or used and freed already (“Double free”)). And because
+memory (which never been used or used and freed already (“**Double free**”)). And because
 our allocator return valid address for zero size request, there is a “cool” special case in that
 check. Returned address to user is
 `start_used_block_addr+aligned_size(MIN_USED_BLOCK+0 (size of used block))` and
 because the size of that used block is 0, immediately in the same address as returned one to
 user, starts new free block. And how to check when user wants to free that address, is he
 trying to *free free memory* or is *that special case (free 0 sized memory address)?!* And because I’m Tsotne, it handles that case properly (reading this, imagine me making *dab move* :D ).
-3. Corrupting the allocator metadata. Before every malloc or free call check_corruption
-function checks if everything ok – if not, something happened, even someone changed free
+
+3. *Corrupting the allocator metadata.* Before every malloc or free call, **check_corruption**
+function checks if everything ok – if not, something happened, either someone changed free
 or used blocks size in the metadata, or changed previous and next links in the free block
 metadata.
+
 To show that sanity checks work, I provided for each case, testing code in the main function (it’s
 commented and to test some case, just uncomment it).
-And for bonus section I provided mesure_fragmentation function, which is called before every
+
+And for bonus section I provided **mesure_fragmentation** function, which is called before every
 allocation and it analyzes external and internal fragmentation of current states (because I give to
 users sometimes bigger size block, to be aligned next address, I added size_without_aligment
 property in used block metadata (It could be done without it, but for this I should have modify
 code)).
-External fragmentation is calculate like this (sum_free-max_free)/sum_free where sum_free is all
-available free memory sum and max_free largest free block.
-Internal one, I calculate (full_used_space - full_payload) / full_used_space which shows how many
-percentage is wasted.
+
+**External fragmentation** is calculate like this **(sum_free-max_free)/sum_free** where *sum_free* is all
+available free memory sum and *max_free* largest free block.
+
+**Internal one**, I calculate **(full_used_space - full_payload) / full_used_space** which shows how many
+percentage of memory is wasted.
+
 Also I count all possible free blocks which are enough for new request.
-I tried few scenarios, and depending managed memory size, allocation request sizes, freeing it and
-its order, I got different results for different policies. In general, Worst-fit algorithm is the best
-placement algorithm with respect to fragmentation because it results in less amount of
-fragmentation, which haven’t been in our work and Best Fit is worst one, if we consider its time too
-- for get result in BF we should scan full list.
-Before that lab, I already knew how to use gdb, but now, I’m the expert to explore segmentation
-faults :3 :D
-I can lie, but usually I don’t, so I like OS classes, and in general, I think when you do something
-you should do it very good, otherwise you shouldn’t do it. To sum up, I spent around 7 days to make
-this project and from them I spend 2 whole weekend (4 days) to test it properly. I hope, it donegood, and when I heard that if it would work on some machine it’s enough, I was kinda sad. But it’s
-ok, I love doing stuff almost perfectly, If I can.
-So to explore and debug ps and ls, I use set exec-wrapper gdb command (I did not know it before).
-Also on the lab machine almost everyone got explicit_bzero error for ps. So, I knew that its
-declaration should be in string.h header, I checked
-cat /usr/include/string.h |grep explicit
-and it was not, so what I did (-_-): I just download whole libc package (link) and check it in that
-header file too. Of course there wasn’t.
-So again I read carefully man of explicit_bzero and in the version section I found:
-“explicit_bzero() first appeared in glibc 2.25.” Hope someday they will update lab machines
-systems.
+
+I tried few scenarios, and depending managed memory size, allocation request sizes, freeing it and its order, I got different results for different policies. In general, *Worst-fit* algorithm is the best placement algorithm with respect to fragmentation because it results in less amount of fragmentation, which haven’t been in our work and *Best Fit* is worst one, if we consider its time too - for get result in *BF* we should scan full list.
+
+Before that lab, I already knew how to use gdb, but now, I’m the expert to explore segmentation faults :3
