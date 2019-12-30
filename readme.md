@@ -80,10 +80,10 @@ users sometimes bigger size block, to be aligned next address, I added size_with
 property in used block metadata (It could be done without it, but for this I should have modify
 code)).
 
-**External fragmentation** is calculate like this **(sum_free-max_free)/sum_free** where *sum_free* is all
+**External fragmentation** is calculate like this `(sum_free-max_free)/sum_free` where *sum_free* is all
 available free memory sum and *max_free* largest free block.
 
-**Internal one**, I calculate **(full_used_space - full_payload) / full_used_space** which shows how many
+**Internal one**, I calculate `(full_used_space - full_payload) / full_used_space` which shows how many
 percentage of memory is wasted.
 
 Also I count all possible free blocks which are enough for new request.
