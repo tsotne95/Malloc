@@ -47,25 +47,24 @@ manually over few thousand times and it handles **99%** possible (de)allocations
 cases, that I couldn't imagine, but yeah it works like a charm).
 
 The implementation also includes sanity checks:
-1. Forgetting to free memory – in the end if user forget to free memory, my allocator reminds
+1. *Forgetting to free memory* – in the end if user forget to free memory, my allocator reminds
 to user every memory address what should be freed with iconic phrase from genial
 Georgian film: "What they were teaching you in the school?!” (The Eccentrics was filmed
 in 1974 by Eldar Shengelaia. In the original phrase instead of school, it used word
 Gymnasy, what was like schools, but I’m not sure there is that word in English with that
 meaning).
 
-2. Calling free() incorrectly – I check if the given address in in the range of my managed
+2. *Calling free() incorrectly* – I check if the given address in in the range of my managed
 memory, also I know if the address is not aligned with the alignment value, that address is
 not provided by my allocator. Also maybe user give as used block address, but that address
 is not the start of used block. And sanity checks in free function, prevents free already free
 memory (which never been used or used and freed already (“Double free”)). And because
 our allocator return valid address for zero size request, there is a “cool” special case in that
 check. Returned address to user is
-start_used_block_addr+aligned_size(MIN_USED_BLOCK+0 (size of used block)) and
+`start_used_block_addr+aligned_size(MIN_USED_BLOCK+0 (size of used block))` and
 because the size of that used block is 0, immediately in the same address as returned one to
 user, starts new free block. And how to check when user wants to free that address, is he
-trying to free free memory or is that special case?! And because I’m Tsotne, it handles that
-case properly (reading this, imagine me making dab move :D ).
+trying to *free free memory* or is *that special case (free 0 sized memory address)?!* And because I’m Tsotne, it handles that case properly (reading this, imagine me making *dab move* :D ).
 3. Corrupting the allocator metadata. Before every malloc or free call check_corruption
 function checks if everything ok – if not, something happened, even someone changed free
 or used blocks size in the metadata, or changed previous and next links in the free block
