@@ -60,9 +60,9 @@ not provided by my allocator. Also maybe user give as used block address, but th
 is not the start of used block. And sanity checks in free function, prevents free already free
 memory (which never been used or used and freed already (“**Double free**”)). And because
 our allocator return valid address for zero size request, there is a “cool” special case in that
-check. Returned address to user is
-`start_used_block_addr+aligned_size(MIN_USED_BLOCK+0 (size of used block))` and
-because the size of that used block is 0, immediately in the same address as returned one to
+check. 
+
+Returned address to user is `start_used_block_addr+aligned_size(MIN_USED_BLOCK+0 (size of used block))` and because the size of that used block is 0, immediately in the same address as returned one to
 user, starts new free block. And how to check when user wants to free that address, is he
 trying to *free free memory* or is *that special case (free 0 sized memory address)?!* And because I’m Tsotne, it handles that case properly (reading this, imagine me making *dab move* :wink: ).
 
