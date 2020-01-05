@@ -90,4 +90,4 @@ Also I count all possible free blocks which are enough for new request.
 
 I tried few scenarios, and depending managed memory size, allocation request sizes, freeing it and its order, I got different results for different policies. In general, *Worst-fit* algorithm is the best placement algorithm with respect to fragmentation because it results in less amount of fragmentation, which haven’t been in our work and *Best Fit* is worst one, if we consider its time too - for get result in *BF* we should scan full list.
 
-Before that lab, I already knew how to use gdb, but now, I’m the expert to explore segmentation faults. :sunglasses:
+Before that lab, I already knew how to use **gdb**, but now, I’m the expert to explore segmentation faults. :sunglasses:
